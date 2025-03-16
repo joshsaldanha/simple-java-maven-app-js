@@ -3,8 +3,7 @@ pipeline {
     docker {
       image 'maven:3.9.6-jdk-21'
       args '-v $HOME/.m2:/root/.m2'
-      registryUrl 'https://index.docker.io/v1/'
-      registryCredentialsId 'dockerhub-creds'
+      dockerExecutable '/usr/local/bin/docker'
     }
   }
   stages {
