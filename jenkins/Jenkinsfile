@@ -1,26 +1,11 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v $HOME/.m2:/root/.m2'
+            image 'maven:3.9.0'
+            args '-v /root/.m2:/root/.m2'
         }
     }
     stages {
-        // Debugging stage to check container environment
-        stage('Check Environment') {
-            steps {
-                sh '''
-                    echo "===== Debugging Output ====="
-                    echo "PATH: $PATH"
-                    echo "Java Home: $JAVA_HOME"
-                    which sh
-                    ls -l /bin/sh
-                    java -version
-                    mvn --version
-                    echo "============================="
-                '''
-            }
-        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
