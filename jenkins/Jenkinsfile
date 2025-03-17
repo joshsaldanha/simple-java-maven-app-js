@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v $HOME/.m2:/home/gse/.m2'
+            args '-u 501 -v $HOME/.m2:/home/gse/.m2'
         }
     }
     stages {
