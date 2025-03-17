@@ -9,7 +9,9 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
-                   mvn -version
+                   mkdir -p /home/gse/.m2/repository
+		   chmod -R 777 /home/gse/.m2
+		   mvn -version
                    ls
                    mvn -Dmaven.repo.local=/home/gse/.m2/repository -B clean package
                 """
