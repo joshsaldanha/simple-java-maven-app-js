@@ -2,18 +2,21 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.9-jdk-21' // Valid image with JDK 21
-            args '-v $HOME/.m2:/root/.m2' // Fix volume path for macOS
+            args '--entrypoint /bin/bash -v $HOME/.m2:/root/.m2' // Ensure Bash is used
         }
+    }
+    environment {
+        SHELL = '/bin/bash' // Explicitly set Bash
     }
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh '/bin/bash -c "mvn -B -DskipTests clean package"'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '/bin/bash -c "mvn test"'
             }
             post {
                 always {
@@ -23,8 +26,9 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh '/bin/bash -c "./jenkins/scripts/deliver.sh"'
             }
         }
     }
 }
+
