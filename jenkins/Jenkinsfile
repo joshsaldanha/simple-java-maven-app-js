@@ -1,12 +1,12 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.9-jdk-21' // Valid image with JDK 21
-            args '--entrypoint /bin/bash -v $HOME/.m2:/root/.m2' // Ensure Bash is used
+            image 'maven:3.9.6-eclipse-temurin-21' // Correct image with JDK 21
+            args '--entrypoint /bin/bash -v $HOME/.m2:/root/.m2' // Use Bash
         }
     }
     environment {
-        SHELL = '/bin/bash' // Explicitly set Bash
+        SHELL = '/bin/bash'
     }
     stages {
         stage('Build') {
