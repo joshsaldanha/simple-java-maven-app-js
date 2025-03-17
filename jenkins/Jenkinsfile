@@ -2,18 +2,16 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v maven-repo:/home/gse/.m2'
+	    args '-v maven-repo:/root/.m2'
         }
     }
     stages {
         stage('Build') {
             steps {
                 sh """
-                   mkdir -p /home/gse/.m2/repository
-		   chmod -R 777 /home/gse/.m2
 		   mvn -version
                    ls
-                   mvn -Dmaven.repo.local=/home/gse/.m2/repository -B clean package
+                   mvn -Dmaven.repo.local=/root/.m2/repository -B clean package
                 """
             }
         }
