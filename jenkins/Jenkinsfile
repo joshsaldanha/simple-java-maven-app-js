@@ -5,15 +5,18 @@ pipeline {
             args '-v $HOME/.m2:/root/.m2'
         }
     }
+    environment {
+        PATH = "/usr/bin:$PATH" // Ensure /usr/bin is in PATH
+    }
     stages {
         stage('Build') {
             steps {
-                sh '/usr/bin/mvn -B -DskipTests clean package'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                sh '/usr/bin/mvn test'
+                sh 'mvn test'
             }
             post {
                 always {
