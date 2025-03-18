@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            // Run as your macOS user (501:20) and fix permissions
             args '-v maven-repo:/maven-repo -u 501:20'
         }
     }
