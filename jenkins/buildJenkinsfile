@@ -1,0 +1,19 @@
+pipeline {
+    agent {
+        docker { 
+            image 'maven:3.9.6-eclipse-temurin-21'
+	    args '-v maven-repo:/root/.m2'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh """
+		   mvn -version
+                   ls
+                   mvn -Dmaven.repo.local=/root/.m2/repository -B clean package
+                """
+            }
+        }
+    }
+}
