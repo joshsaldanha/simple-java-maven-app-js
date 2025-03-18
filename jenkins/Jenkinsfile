@@ -9,6 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
+                   chmod -R 777 .
                    mvn -Dmaven.repo.local=/maven-repo/repository -B clean package
                 """
             }
