@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            // Run as your macOS user (501:20) and fix permissions
             args '-v maven-repo:/maven-repo -u 501:20'
         }
     }
@@ -10,7 +9,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
-                   // Use a custom Maven repo path (not /root/.m2)
+                   mkdir -p /maven-repo/repository
+                   chmod -R 777 /maven-repo
                    mvn -Dmaven.repo.local=/maven-repo/repository -B clean package
                 """
             }
