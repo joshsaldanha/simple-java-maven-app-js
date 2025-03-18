@@ -11,13 +11,13 @@ pipeline {
                 sh """
                    mvn -version
                    ls
-                   mvn -B -DskipTests clean package
+                   mvn -Dmaven.repo.local=/root/.m2/repository -B -DskipTests clean package
                 """
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -Dmaven.repo.local=/root/.m2/repository test'
             }
             post {
                 always {
