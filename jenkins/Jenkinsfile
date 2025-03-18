@@ -2,15 +2,13 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v maven-repo:/maven-repo -u 501:20'
+            args '-v maven-repo:/maven-repo -u 1000:1000'
         }
     }
     stages {
         stage('Build') {
             steps {
                 sh """
-                   mkdir -p /maven-repo/repository
-                   chmod -R 777 /maven-repo
                    mvn -Dmaven.repo.local=/maven-repo/repository -B clean package
                 """
             }
