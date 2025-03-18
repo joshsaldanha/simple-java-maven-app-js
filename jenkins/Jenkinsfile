@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v maven-repo:/root/.m2'
+            args '-v maven-repo:/home/jenkins/.m2 -u 501:20'
         }
     }
     stages {
@@ -11,13 +11,14 @@ pipeline {
                 sh """
                    mvn -version
                    ls
-                   mvn -Dmaven.repo.local=/root/.m2/repository -B clean package
+                   // Use /home/jenkins/.m2/repository (mounted volume) instead of /root/.m2
+                   mvn -Dmaven.repo.local=/home/jenkins/.m2/repository -B clean package
                 """
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn -Dmaven.repo.local=/root/.m2/repository test'
+                sh 'mvn -Dmaven.repo.local=/home/jenkins/.m2/repository test'
             }
             post {
                 always {
@@ -27,8 +28,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh 'chmod +x ./jenkins/scripts/deliver.sh'  
-                sh './jenkins/scripts/deliver.sh'           
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
